@@ -1,0 +1,25 @@
+﻿name: Upload dotnet package
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0.x' # SDK Version to use.
+          source-url: https://nuget.pkg.github.com/polimaster/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - run: dotnet build src/Polimaster.Device.Transport.Win.Usb/Polimaster.Device.Transport.Win.Usb --configuration Release <my project>
+      - name: Create the package
+        run: dotnet pack src/Polimaster.Device.Transport.Win.Usb/Polimaster.Device.Transport.Win.Usb --configuration Release <my project>
+      - name: Publish the package to GPR
+        run: dotnet nuget push src/Polimaster.Device.Transport.Win.Usb/Polimaster.Device.Transport.Win.Usb/bin/Release/*.nupkg
