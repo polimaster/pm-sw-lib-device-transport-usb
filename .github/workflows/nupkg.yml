@@ -18,8 +18,16 @@ jobs:
           source-url: https://nuget.pkg.github.com/polimaster/index.json
         env:
           NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      - run: dotnet build src/Polimaster.Device.Transport.Usb/Polimaster.Device.Transport.Win.Usb --configuration Release
+      - name: Define variables
+        run: |
+          tag=$(git describe --tags --abbrev=0)
+          echo "tag=$tag" >> "$GITHUB_ENV"
+          echo "src=src/Polimaster.Device.Transport.Usb/Polimaster.Device.Transport.Win.Usb" >> "$GITHUB_ENV"
+      - name: Build
+        run: dotnet build "$src" -c Release -p:AssemblyVersion="$tag" -p:Version="$tag"
+#      - name: Run tests
+#        run: dotnet test "$src.Tests"
       - name: Create the package
-        run: dotnet pack src/Polimaster.Device.Transport.Usb/Polimaster.Device.Transport.Win.Usb --configuration Release
+        run: dotnet pack "$src" -c Release -p:AssemblyVersion="$tag" -p:Version="$tag"
       - name: Publish the package to GPR
-        run: dotnet nuget push src/Polimaster.Device.Transport.Usb/Polimaster.Device.Transport.Win.Usb/bin/Release/*.nupkg
+        run: dotnet nuget push "$src/bin/Release/*.nupkg"
