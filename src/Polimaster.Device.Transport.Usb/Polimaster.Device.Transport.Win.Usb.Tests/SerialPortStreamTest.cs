@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Moq;
 
 namespace Polimaster.Device.Transport.Win.Usb.Tests;
@@ -6,7 +7,7 @@ namespace Polimaster.Device.Transport.Win.Usb.Tests;
 public class SerialPortStreamTest : Mocks {
     
     [Fact]
-    public async void ShouldRead() {
+    public async Task ShouldRead() {
         var port = new Mock<IDevicePort>();
         var response = Guid.NewGuid().ToString();
         port.Setup(e => e.ReadTo(It.IsAny<string>())).Returns(response);
@@ -19,7 +20,7 @@ public class SerialPortStreamTest : Mocks {
     }
 
     [Fact]
-    public async void ShouldWrite() {
+    public async Task ShouldWrite() {
         var port = new Mock<IDevicePort>();
         var stream = new SerialPortStream(port.Object, LOGGER_FACTORY);
         
