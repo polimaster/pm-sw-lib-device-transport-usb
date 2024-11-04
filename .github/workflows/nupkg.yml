@@ -15,11 +15,11 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x' # SDK Version to use.
-#          source-url: https://nuget.pkg.github.com/polimaster/index.json
-#        env:
-#          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      - name: Add github packages
-        run: dotnet nuget add source https://nuget.pkg.github.com/polimaster/index.json -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text
+          source-url: https://nuget.pkg.github.com/polimaster/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+#      - name: Add github packages
+#        run: dotnet nuget add source https://nuget.pkg.github.com/polimaster/index.json -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text
       - name: Define variables
         run: |
           tag=$(git describe --tags --abbrev=0)
@@ -28,6 +28,8 @@ jobs:
 
       - name: Build
         run: dotnet build "$src" -c Release -p:AssemblyVersion="$tag" -p:Version="$tag"
+        env:
+          NuGetPackageSourceCredentials_github: Username=${{ github.actor }};Password=${{ secrets.GITHUB_TOKEN }}
 #      - name: Run tests
 #        run: dotnet test "$src.Tests"
       - name: Create the package
