@@ -12,23 +12,21 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v4.1.0
         with:
           dotnet-version: '8.0.x' # SDK Version to use.
           source-url: https://nuget.pkg.github.com/polimaster/index.json
         env:
           NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-#      - name: Add github packages
-#        run: dotnet nuget add source https://nuget.pkg.github.com/polimaster/index.json -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text
       - name: Define variables
         run: |
           tag=$(git describe --tags --abbrev=0)
           echo "tag=$tag" >> "$GITHUB_ENV"
           echo "src=src/Polimaster.Device.Transport.Usb/Polimaster.Device.Transport.Win.Usb" >> "$GITHUB_ENV"
-
       - name: Build
         run: dotnet build "$src" -c Release -p:AssemblyVersion="$tag" -p:Version="$tag"
         env:
+#          see https://github.com/actions/setup-dotnet/issues/543
           NuGetPackageSourceCredentials_github.polimaster: Username=${{ github.actor }};Password=${{ secrets.GITHUB_TOKEN }}
 #      - name: Run tests
 #        run: dotnet test "$src.Tests"
