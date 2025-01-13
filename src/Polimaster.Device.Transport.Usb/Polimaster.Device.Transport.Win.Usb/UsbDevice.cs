@@ -1,11 +1,11 @@
-using Polimaster.Device.Abstract;
+using System;
 
 namespace Polimaster.Device.Transport.Win.Usb;
 
 /// <summary>
 /// USB device connection properties
 /// </summary>
-public struct UsbDevice : IStringify {
+public struct UsbDevice : IFormattable {
     /// <summary>
     /// Device identifier. Usually COM port name.
     /// </summary>
@@ -26,6 +26,6 @@ public struct UsbDevice : IStringify {
         PlugAndPlayId = plugAndPlayId;
     }
 
-    /// <inheritdoc cref="IStringify.ToString" />
-    public override string ToString() => $"{Name}:{PlugAndPlayId}";
+    /// <inheritdoc />
+    public string ToString(string format, IFormatProvider formatProvider)=> $"{Name}:{PlugAndPlayId}";
 }
