@@ -4,12 +4,14 @@ using System.Management;
 using System.Threading;
 using Microsoft.Extensions.Logging;
 using Polimaster.Device.Abstract;
-using Polimaster.Device.Abstract.Transport;
 
 namespace Polimaster.Device.Transport.Win.Usb;
 
 /// <inheritdoc />
-public abstract class UsbDiscovery : ATransportDiscovery {
+public abstract class UsbDiscovery : ATransportDiscovery<UsbDevice> {
+    /// <summary>
+    /// See <see cref="ManagementEventWatcher"/>
+    /// </summary>
     private readonly ManagementEventWatcher _managementEventWatcher;
     
     /// <summary>
@@ -58,6 +60,11 @@ public abstract class UsbDiscovery : ATransportDiscovery {
         _managementEventWatcher.Stop();
     }
 
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void OnMEWEvent(object sender, EventArrivedEventArgs e) {
         var p = e.NewEvent.Properties["TargetInstance"];
         if (p.Value is not ManagementBaseObject mbo) return;
@@ -78,16 +85,24 @@ public abstract class UsbDiscovery : ATransportDiscovery {
         }
     }
     
+    /// <summary>
+    /// When usb device found
+    /// </summary>
+    /// <param name="usbDevice"></param>
     private void OnFound(UsbDevice usbDevice) {
         Logger?.LogDebug("Found device {D}", usbDevice);
-        var res = new UsbTransport(new SerialPortClient(usbDevice, LoggerFactory), LoggerFactory);
-        Found?.Invoke(new List<ITransport> { res });
+        // var res = new UsbTransport(new SerialPortClient(usbDevice, LoggerFactory), LoggerFactory);
+        Found?.Invoke(new List<UsbDevice> { usbDevice });
     }
 
+    /// <summary>
+    /// When usb device lost
+    /// </summary>
+    /// <param name="usbDevice"></param>
     private void OnLost(UsbDevice usbDevice) {
         Logger?.LogDebug("Lost device {D}", usbDevice);
-        var res = new UsbTransport(new SerialPortClient(usbDevice, LoggerFactory), LoggerFactory);
-        Lost?.Invoke(new List<ITransport> { res });
+        // var res = new UsbTransport(new SerialPortClient(usbDevice, LoggerFactory), LoggerFactory);
+        Lost?.Invoke(new List<UsbDevice> { usbDevice });
     }
 
     /// <inheritdoc />
@@ -99,8 +114,8 @@ public abstract class UsbDiscovery : ATransportDiscovery {
     }
 
     /// <inheritdoc />
-    public override event Action<IEnumerable<ITransport>>? Found;
+    public override event Action<IEnumerable<UsbDevice>>? Found;
 
     /// <inheritdoc />
-    public override event Action<IEnumerable<ITransport>>? Lost;
+    public override event Action<IEnumerable<UsbDevice>>? Lost;
 }

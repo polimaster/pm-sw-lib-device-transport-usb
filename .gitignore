@@ -6,3 +6,4 @@
 /src/**/**/obj/
 **/.DS_Store
 **/.vs/**
+/src/**/**.DotSettings.user
