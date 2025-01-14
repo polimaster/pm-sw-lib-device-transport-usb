@@ -9,7 +9,7 @@ using Polimaster.Device.Abstract.Transport.Stream;
 namespace Polimaster.Device.Transport.Win.Usb;
 
 /// <inheritdoc />
-public class SerialPortClient : AClient<string, UsbDevice> {
+public class SerialPortClient : AClient<UsbDevice> {
     private DevicePort? _wrapped;
     
     /// <summary>
@@ -69,7 +69,7 @@ public class SerialPortClient : AClient<string, UsbDevice> {
     }
 
     /// <inheritdoc />
-    public override IDeviceStream<string> GetStream() {
+    public override IDeviceStream GetStream() {
         if (_wrapped is not { IsOpen: true }) throw new DeviceClientException($"{_wrapped?.GetType().Name} is closed or null");
         return new SerialPortStream(_wrapped, LoggerFactory);
     }

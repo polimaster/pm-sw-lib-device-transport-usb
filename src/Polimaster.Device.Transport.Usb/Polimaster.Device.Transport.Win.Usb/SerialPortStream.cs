@@ -7,7 +7,7 @@ namespace Polimaster.Device.Transport.Win.Usb;
 
 
 /// <inheritdoc />
-public class SerialPortStream : IDeviceStream<string> {
+public class SerialPortStream : IDeviceStream {
     private readonly IDevicePort _port;
     private readonly ILogger<SerialPortStream>? _logger;
 
@@ -22,16 +22,16 @@ public class SerialPortStream : IDeviceStream<string> {
     }
 
     /// <inheritdoc />
-    public virtual Task WriteAsync(string buffer, CancellationToken cancellationToken) {
+    public virtual Task WriteAsync<T>(byte[] buffer, CancellationToken cancellationToken, T? channel = default) {
         _logger?.LogDebug("Call {F} with: {V}", nameof(WriteAsync), buffer);
-        _port.WriteLine(buffer);
+        _port.Write(buffer);
         return Task.CompletedTask;
     }
 
     /// <inheritdoc />
-    public virtual Task<string> ReadAsync(CancellationToken cancellationToken) {
+    public virtual Task<byte[]> ReadAsync<T>(CancellationToken cancellationToken, T? channel = default) {
         _logger?.LogDebug("Call: {F}", nameof(ReadAsync));
-        var res = _port.ReadTo(_port.NewLine);
+        var res = _port.Read();
         return Task.FromResult(res);
     }
 }
