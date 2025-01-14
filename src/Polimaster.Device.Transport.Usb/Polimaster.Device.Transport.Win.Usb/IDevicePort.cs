@@ -7,14 +7,14 @@ namespace Polimaster.Device.Transport.Win.Usb;
 /// </summary>
 public interface IDevicePort {
     /// <summary>
-    /// See <see cref="SerialPort.WriteLine"/>
+    /// See <see cref="SerialPort.Write"/>
     /// </summary>
-    void WriteLine(string buffer);
+    void Write(byte[] buffer);
 
     /// <summary>
     /// See <see cref="SerialPort.ReadTo"/>
     /// </summary>
-    string ReadTo(string value);
+    byte[] Read();
 
     /// <summary>
     /// See <see cref="SerialPort.NewLine"/>
