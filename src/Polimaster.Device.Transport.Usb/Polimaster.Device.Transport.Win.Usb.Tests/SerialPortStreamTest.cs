@@ -42,6 +42,6 @@ public class SerialPortStreamTest : Mocks {
         var buff = Guid.NewGuid().ToString();
         await stream.Write(buff, Token);
         
-        port.Verify(e => e.Write(buff));
+        port.Verify(e => e.WriteLine(buff));
     }
 }

@@ -96,7 +96,7 @@ public abstract class UsbDiscovery : ATransportDiscovery<UsbConnectionProperties
     /// </summary>
     /// <param name="usbConnectionProperties"></param>
     private void OnFound(UsbConnectionProperties usbConnectionProperties) {
-        Logger?.LogDebug("Found device {@Device}", usbConnectionProperties);
+        Logger?.LogDebug("Found device {Device}", usbConnectionProperties);
         Found?.Invoke(new List<UsbConnectionProperties> { usbConnectionProperties });
     }
 
@@ -105,7 +105,7 @@ public abstract class UsbDiscovery : ATransportDiscovery<UsbConnectionProperties
     /// </summary>
     /// <param name="usbConnectionProperties"></param>
     private void OnLost(UsbConnectionProperties usbConnectionProperties) {
-        Logger?.LogDebug("Lost device {@Device}", usbConnectionProperties);
+        Logger?.LogDebug("Lost device {Device}", usbConnectionProperties);
         Lost?.Invoke(new List<UsbConnectionProperties> { usbConnectionProperties });
     }
 

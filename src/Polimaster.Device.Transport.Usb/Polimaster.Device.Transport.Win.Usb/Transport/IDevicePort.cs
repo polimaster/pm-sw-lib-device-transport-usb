@@ -9,7 +9,7 @@ public interface IDevicePort {
     /// <summary>
     /// See <see cref="SerialPort.Write(byte[],int,int)"/>
     /// </summary>
-    void Write(string buffer);
+    void WriteLine(string buffer);
 
     /// <summary>
     /// See <see cref="SerialPort.ReadLine"/>
