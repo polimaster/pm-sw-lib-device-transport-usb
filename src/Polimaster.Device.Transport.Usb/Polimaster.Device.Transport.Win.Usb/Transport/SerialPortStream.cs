@@ -38,7 +38,7 @@ public class SerialPortStream : ALogged, ISerialPortStream {
     /// <inheritdoc />
     public virtual Task Write(string buffer, CancellationToken cancellationToken) {
         LogDebug(nameof(Write));
-        _port.Write(buffer);
+        _port.WriteLine(buffer);
         return Task.CompletedTask;
     }
 
