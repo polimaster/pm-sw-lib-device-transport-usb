@@ -1,11 +1,11 @@
 using System;
 
-namespace Polimaster.Device.Transport.Win.Usb;
+namespace Polimaster.Device.Transport.Win.Usb.Transport;
 
 /// <summary>
 /// USB device connection properties
 /// </summary>
-public class UsbDevice : IFormattable {
+public class UsbConnectionProperties : IFormattable {
     /// <summary>
     /// Device identifier. Usually COM port name.
     /// </summary>
@@ -21,7 +21,7 @@ public class UsbDevice : IFormattable {
     /// </summary>
     /// <param name="name"></param>
     /// <param name="plugAndPlayId"></param>
-    public UsbDevice(string name, string plugAndPlayId) {
+    public UsbConnectionProperties(string name, string plugAndPlayId) {
         Name = name;
         PlugAndPlayId = plugAndPlayId;
     }

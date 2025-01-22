@@ -9,7 +9,7 @@ using Polimaster.Device.Abstract.Transport;
 namespace Polimaster.Device.Transport.Win.Usb.Transport;
 
 /// <inheritdoc />
-public class SerialPortClient : AClient<ISerialPortStream, UsbDevice> {
+public class SerialPortClient : AClient<ISerialPortStream, UsbConnectionProperties> {
     /// <summary>
     /// See <see cref="DevicePort"/>
     /// </summary>
@@ -44,7 +44,7 @@ public class SerialPortClient : AClient<ISerialPortStream, UsbDevice> {
     protected virtual Encoding Encoding => Encoding.UTF8;
 
     /// <inheritdoc />
-    public SerialPortClient(UsbDevice @params, ILoggerFactory? loggerFactory) : base(@params, loggerFactory) {
+    public SerialPortClient(UsbConnectionProperties @params, ILoggerFactory? loggerFactory) : base(@params, loggerFactory) {
     }
 
     /// <inheritdoc />
