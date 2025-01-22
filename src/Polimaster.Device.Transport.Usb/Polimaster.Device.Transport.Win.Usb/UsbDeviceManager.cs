@@ -50,7 +50,7 @@ public abstract class UsbDeviceManager<TDevice, TTransport, TDiscovery>(TDiscove
 /// <typeparam name="TDevice">Subclass of <see cref="IDevice{TTransport,TStream}"/></typeparam>
 /// <typeparam name="TDiscovery">Subclass of <see cref="IUsbDiscovery"/></typeparam>
 public abstract class UsbDeviceManager<TDevice, TDiscovery>(TDiscovery discovery, ILoggerFactory? loggerFactory)
-    : UsbDeviceManager<TDevice, IUsbTransport, ISerialPortStream, TDiscovery>(discovery, loggerFactory)
+    : UsbDeviceManager<TDevice, IUsbTransport, TDiscovery>(discovery, loggerFactory)
     where TDevice : IDevice<IUsbTransport, ISerialPortStream>, IDisposable
     where TDiscovery : IUsbDiscovery {
 
