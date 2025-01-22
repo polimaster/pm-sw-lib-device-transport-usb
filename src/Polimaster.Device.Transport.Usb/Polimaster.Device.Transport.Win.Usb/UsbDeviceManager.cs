@@ -17,7 +17,7 @@ namespace Polimaster.Device.Transport.Win.Usb;
 /// <typeparam name="TStream">Subclass of <see cref="ISerialPortStream"/></typeparam>
 /// <typeparam name="TDiscovery">Subclass of <see cref="IUsbDiscovery"/></typeparam>
 public abstract class UsbDeviceManager<TDevice, TTransport, TStream, TDiscovery>(TDiscovery discovery, ILoggerFactory? loggerFactory)
-    : ADeviceManager<TDevice, TTransport, TStream, TDiscovery, UsbDevice>(discovery, loggerFactory)
+    : ADeviceManager<TDevice, TTransport, TStream, TDiscovery, UsbConnectionProperties>(discovery, loggerFactory)
     where TDevice : IDevice<TTransport, TStream>, IDisposable
     where TTransport : ITransport<TStream>
     where TStream : ISerialPortStream
@@ -39,7 +39,7 @@ public abstract class UsbDeviceManager<TDevice, TTransport, TDiscovery>(TDiscove
     where TDiscovery : IUsbDiscovery {
 
     /// <inheritdoc />
-    protected override IClient<ISerialPortStream> CreateClient(UsbDevice connectionParams) => new SerialPortClient(connectionParams, LoggerFactory);
+    protected override IClient<ISerialPortStream> CreateClient(UsbConnectionProperties connectionParams) => new SerialPortClient(connectionParams, LoggerFactory);
 }
 
 /// <summary>
