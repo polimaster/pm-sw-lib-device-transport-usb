@@ -47,7 +47,7 @@ public abstract class UsbDiscovery : ATransportDiscovery<UsbDevice>, IUsbDiscove
         _managementEventWatcher.Start();
         
         Logger?.LogDebug("Search for already connected devices");
-        using var searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_SerialPort");
+        using var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_SerialPort");
         var managementObjectCollection = searcher.Get();
 
         foreach (var deviceUsb in managementObjectCollection) {
