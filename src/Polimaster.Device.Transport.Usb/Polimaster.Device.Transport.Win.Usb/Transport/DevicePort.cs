@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO.Ports;
+﻿using System.IO.Ports;
 
 namespace Polimaster.Device.Transport.Win.Usb.Transport;
 
@@ -14,12 +13,14 @@ public class DevicePort : SerialPort, IDevicePort {
 
     /// <inheritdoc />
     public string ReadAll() {
-        var res = new List<byte>();
-        while (BytesToRead > 0) {
-            var buffer = new byte[BytesToRead];
-            Read(buffer, 0, buffer.Length);
-            res.AddRange(buffer);
-        }
-        return System.Text.Encoding.UTF8.GetString(res.ToArray());
+        return ReadExisting();
+
+        // var res = new List<byte>();
+        // while (BytesToRead > 0) {
+        //     var buffer = new byte[BytesToRead];
+        //     Read(buffer, 0, buffer.Length);
+        //     res.AddRange(buffer);
+        // }
+        // return System.Text.Encoding.UTF8.GetString(res.ToArray());
     }
 }
