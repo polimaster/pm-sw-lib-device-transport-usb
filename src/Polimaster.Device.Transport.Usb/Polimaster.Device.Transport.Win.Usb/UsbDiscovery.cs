@@ -7,8 +7,13 @@ using Polimaster.Device.Abstract;
 
 namespace Polimaster.Device.Transport.Win.Usb;
 
-/// <inheritdoc />
-public abstract class UsbDiscovery : ATransportDiscovery<UsbDevice> {
+/// <summary>
+/// Searches for devices on USB interface
+/// </summary>
+public interface IUsbDiscovery : ITransportDiscovery<UsbDevice>;
+
+/// <inheritdoc cref="Polimaster.Device.Transport.Win.Usb.IUsbDiscovery" />
+public abstract class UsbDiscovery : ATransportDiscovery<UsbDevice>, IUsbDiscovery {
     /// <summary>
     /// See <see cref="ManagementEventWatcher"/>
     /// </summary>
@@ -90,8 +95,7 @@ public abstract class UsbDiscovery : ATransportDiscovery<UsbDevice> {
     /// </summary>
     /// <param name="usbDevice"></param>
     private void OnFound(UsbDevice usbDevice) {
-        Logger?.LogDebug("Found device {D}", usbDevice);
-        // var res = new UsbTransport(new SerialPortClient(usbDevice, LoggerFactory), LoggerFactory);
+        Logger?.LogDebug("Found device {@Device}", usbDevice);
         Found?.Invoke(new List<UsbDevice> { usbDevice });
     }
 
@@ -100,8 +104,7 @@ public abstract class UsbDiscovery : ATransportDiscovery<UsbDevice> {
     /// </summary>
     /// <param name="usbDevice"></param>
     private void OnLost(UsbDevice usbDevice) {
-        Logger?.LogDebug("Lost device {D}", usbDevice);
-        // var res = new UsbTransport(new SerialPortClient(usbDevice, LoggerFactory), LoggerFactory);
+        Logger?.LogDebug("Lost device {@Device}", usbDevice);
         Lost?.Invoke(new List<UsbDevice> { usbDevice });
     }
 

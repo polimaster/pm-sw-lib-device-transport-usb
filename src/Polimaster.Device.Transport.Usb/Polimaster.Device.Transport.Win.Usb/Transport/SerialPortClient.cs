@@ -1,15 +1,18 @@
+using System;
 using System.IO.Ports;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Polimaster.Device.Abstract.Transport;
-using Polimaster.Device.Abstract.Transport.Stream;
 
-namespace Polimaster.Device.Transport.Win.Usb;
+namespace Polimaster.Device.Transport.Win.Usb.Transport;
 
 /// <inheritdoc />
-public class SerialPortClient : AClient<UsbDevice> {
+public class SerialPortClient : AClient<ISerialPortStream, UsbDevice> {
+    /// <summary>
+    /// See <see cref="DevicePort"/>
+    /// </summary>
     private DevicePort? _wrapped;
     
     /// <summary>
@@ -69,23 +72,18 @@ public class SerialPortClient : AClient<UsbDevice> {
     }
 
     /// <inheritdoc />
-    public override IDeviceStream GetStream() {
-        if (_wrapped is not { IsOpen: true }) throw new DeviceClientException($"{_wrapped?.GetType().Name} is closed or null");
+    public override ISerialPortStream GetStream() {
+        if (_wrapped is not { IsOpen: true }) throw new Exception($"{_wrapped?.GetType().Name} is closed or null");
         return new SerialPortStream(_wrapped, LoggerFactory);
     }
 
     /// <inheritdoc />
-    public override void Open() {
-        if (_wrapped is { IsOpen: true }) return;
+    public override Task Open(CancellationToken token) {
+        if (_wrapped is { IsOpen: true }) return Task.CompletedTask;
 
         Reset();
         _wrapped?.Open();
-    }
-
-    /// <inheritdoc />
-    public override async Task OpenAsync(CancellationToken token) {
-        Open();
-        await Task.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <inheritdoc />

@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Moq;
+using Polimaster.Device.Transport.Win.Usb.Transport;
 
 namespace Polimaster.Device.Transport.Win.Usb.Tests;
 
