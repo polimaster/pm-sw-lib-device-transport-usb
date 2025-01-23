@@ -13,14 +13,8 @@ public class DevicePort : SerialPort, IDevicePort {
 
     /// <inheritdoc />
     public string ReadAll() {
-        return ReadExisting();
-
-        // var res = new List<byte>();
-        // while (BytesToRead > 0) {
-        //     var buffer = new byte[BytesToRead];
-        //     Read(buffer, 0, buffer.Length);
-        //     res.AddRange(buffer);
-        // }
-        // return System.Text.Encoding.UTF8.GetString(res.ToArray());
+        var data = string.Empty;
+        while (BytesToRead > 0) data += ReadExisting();
+        return data;
     }
 }
