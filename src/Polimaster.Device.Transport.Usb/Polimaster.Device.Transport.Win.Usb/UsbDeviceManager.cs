@@ -13,7 +13,7 @@ namespace Polimaster.Device.Transport.Win.Usb;
 /// <param name="discovery"><see cref="IUsbDiscovery"/></param>
 /// <param name="loggerFactory"><see cref="ILoggerFactory"/></param>
 /// <typeparam name="TDevice">Subclass of <see cref="IDevice{TTransport,TStream}"/></typeparam>
-/// <typeparam name="TTransport">Subclass of <see cref="ITransport{ISerialPortStream}"/></typeparam>
+/// <typeparam name="TTransport">Subclass of <see cref="ITransport{T}"/></typeparam>
 /// <typeparam name="TStream">Subclass of <see cref="ISerialPortStream"/></typeparam>
 /// <typeparam name="TDiscovery">Subclass of <see cref="IUsbDiscovery"/></typeparam>
 public abstract class UsbDeviceManager<TDevice, TTransport, TStream, TDiscovery>(TDiscovery discovery, ILoggerFactory? loggerFactory)
@@ -25,12 +25,12 @@ public abstract class UsbDeviceManager<TDevice, TTransport, TStream, TDiscovery>
 
 
 /// <summary>
-/// Usb device manager with default <see cref="SerialPortStream"/> implemntation
+/// Usb device manager with default <see cref="SerialPortStream"/> implementation
 /// </summary>
 /// <param name="discovery"><see cref="IUsbDiscovery"/></param>
 /// <param name="loggerFactory"><see cref="ILoggerFactory"/></param>
 /// <typeparam name="TDevice">Subclass of <see cref="IDevice{TTransport,TStream}"/></typeparam>
-/// <typeparam name="TTransport">Subclass of <see cref="ITransport{ISerialPortStream}"/></typeparam>
+/// <typeparam name="TTransport">Subclass of <see cref="ITransport{T}"/></typeparam>
 /// <typeparam name="TDiscovery">Subclass of <see cref="IUsbDiscovery"/></typeparam>
 public abstract class UsbDeviceManager<TDevice, TTransport, TDiscovery>(TDiscovery discovery, ILoggerFactory? loggerFactory)
     : UsbDeviceManager<TDevice, TTransport, ISerialPortStream, TDiscovery>(discovery, loggerFactory)
@@ -43,7 +43,7 @@ public abstract class UsbDeviceManager<TDevice, TTransport, TDiscovery>(TDiscove
 }
 
 /// <summary>
-/// Usb device manager with default <see cref="UsbTransport"/> implemntation
+/// Usb device manager with default <see cref="UsbTransport"/> implementation
 /// </summary>
 /// <param name="discovery"><see cref="IUsbDiscovery"/></param>
 /// <param name="loggerFactory"><see cref="ILoggerFactory"/></param>
