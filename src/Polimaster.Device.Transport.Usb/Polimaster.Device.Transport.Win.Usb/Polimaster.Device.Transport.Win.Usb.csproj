@@ -21,9 +21,9 @@
     <ItemGroup>
         <None Include="../../../README.md" Pack="true" PackagePath="/" />
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
-        <PackageReference Include="Polimaster.Device.Abstract" Version="3.3.7" />
-        <PackageReference Include="System.IO.Ports" Version="9.0.1" />
-        <PackageReference Include="System.Management" Version="9.0.1" />
+        <PackageReference Include="Polimaster.Device.Abstract" Version="3.3.8" />
+        <PackageReference Include="System.IO.Ports" Version="9.0.2" />
+        <PackageReference Include="System.Management" Version="9.0.2" />
     </ItemGroup>
 
 </Project>
