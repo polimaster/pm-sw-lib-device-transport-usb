@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
+        <TargetFramework>net8.0-windows10.0.19041</TargetFramework>
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
         <AssemblyName>Polimaster.Device.Transport.Win.Usb</AssemblyName>
@@ -16,14 +16,15 @@
         <PackageProjectUrl>https://github.com/polimaster/pm-sw-lib-device-transport-usb</PackageProjectUrl>
         <RepositoryUrl>https://github.com/polimaster/pm-sw-lib-device-transport-usb</RepositoryUrl>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EnableWindowsTargeting>true</EnableWindowsTargeting>
     </PropertyGroup>
 
     <ItemGroup>
         <None Include="../../../README.md" Pack="true" PackagePath="/" />
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
-        <PackageReference Include="Polimaster.Device.Abstract" Version="3.3.8" />
-        <PackageReference Include="System.IO.Ports" Version="9.0.2" />
-        <PackageReference Include="System.Management" Version="9.0.2" />
+        <PackageReference Include="Polimaster.Device.Abstract" Version="3.3.9" />
+        <PackageReference Include="System.IO.Ports" Version="9.0.6" />
+        <PackageReference Include="System.Management" Version="9.0.6" />
     </ItemGroup>
 
 </Project>
