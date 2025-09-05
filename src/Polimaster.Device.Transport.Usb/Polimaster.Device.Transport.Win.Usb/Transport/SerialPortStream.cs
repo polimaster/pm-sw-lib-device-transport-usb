@@ -37,7 +37,7 @@ public class SerialPortStream : ALogged, ISerialPortStream {
 
     /// <inheritdoc />
     public virtual Task Write(string buffer, CancellationToken cancellationToken) {
-        LogDebug(nameof(Write));
+        // LogDebug(nameof(Write));
         _port.WriteLine(buffer);
         return Task.CompletedTask;
     }
@@ -49,14 +49,14 @@ public class SerialPortStream : ALogged, ISerialPortStream {
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public virtual Task<string> Read(CancellationToken cancellationToken) {
-        LogDebug(nameof(Read));
+        // LogDebug(nameof(Read));
         var res = _port.ReadLine();
         return Task.FromResult(res);
     }
 
     /// <inheritdoc />
     public virtual Task<string> ReadAll(CancellationToken cancellationToken) {
-        LogDebug(nameof(ReadAll));
+        // LogDebug(nameof(ReadAll));
         var res = _port.ReadAll();
         return Task.FromResult(res);
     }
