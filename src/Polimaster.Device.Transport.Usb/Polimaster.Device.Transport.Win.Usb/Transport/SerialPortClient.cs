@@ -63,12 +63,15 @@ public class SerialPortClient : AClient<ISerialPortStream, UsbConnectionProperti
     /// <inheritdoc />
     public override void Reset() {
         Close();
-        _wrapped = new DevicePort(Params.Name, BaudRate, Parity.None, DataBits, StopBits.One);
-        _wrapped.ReadBufferSize = BufferSize;
-        _wrapped.ReadTimeout = Timeout;
-        _wrapped.WriteTimeout = Timeout;
-        _wrapped.Encoding = Encoding;
-        _wrapped.NewLine = Newline;
+        _wrapped = new DevicePort(Params.Name, BaudRate, Parity.None, DataBits, StopBits.One) {
+            ReadBufferSize = BufferSize,
+            ReadTimeout = Timeout,
+            WriteTimeout = Timeout,
+            Encoding = Encoding,
+            NewLine = Newline,
+            DtrEnable = false,
+            RtsEnable = false
+        };
     }
 
     /// <inheritdoc />
