@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Management;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Polimaster.Device.Abstract;
 using Polimaster.Device.Transport.Win.Usb.Transport;
@@ -33,7 +34,7 @@ public abstract class UsbDiscovery : ATransportDiscovery<UsbConnectionProperties
     /// <inheritdoc />
     protected UsbDiscovery(ILoggerFactory? loggerFactory) : base(loggerFactory) {
         const string query =
-            "SELECT * FROM __InstanceOperationEvent WITHIN 1 WHERE TargetInstance isa 'Win32_SerialPort'";
+            "SELECT * FROM __InstanceOperationEvent WITHIN 2 WHERE TargetInstance isa 'Win32_SerialPort'";
         _managementEventWatcher = new ManagementEventWatcher(new WqlEventQuery(query));
         _managementEventWatcher.EventArrived += OnMEWEvent;
     }
@@ -44,25 +45,27 @@ public abstract class UsbDiscovery : ATransportDiscovery<UsbConnectionProperties
 
     /// <inheritdoc />
     public override void Start(CancellationToken token) {
-        base.Start(token);
-        _managementEventWatcher.Start();
-        
-        Logger?.LogDebug("Search for already connected devices");
-        using var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_SerialPort");
-        var managementObjectCollection = searcher.Get();
+        // base.Start(token);
+        Task.Run(() => {
+            _managementEventWatcher.Start();
 
-        foreach (var deviceUsb in managementObjectCollection) {
-            var pnpDeviceId = (string)deviceUsb.GetPropertyValue("PNPDeviceID");
-            var deviceId = (string)deviceUsb.GetPropertyValue("DeviceID");
-            if (pnpDeviceId.Contains($"{VID}&{PID}")) {
-                OnFound(new UsbConnectionProperties(deviceId, pnpDeviceId));
+            Logger?.LogDebug("Search for already connected devices");
+            using var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_SerialPort");
+            var managementObjectCollection = searcher.Get();
+
+            foreach (var deviceUsb in managementObjectCollection) {
+                var pnpDeviceId = (string)deviceUsb.GetPropertyValue("PNPDeviceID");
+                var deviceId = (string)deviceUsb.GetPropertyValue("DeviceID");
+                if (pnpDeviceId.Contains($"{VID}&{PID}")) {
+                    OnFound(new UsbConnectionProperties(deviceId, pnpDeviceId));
+                }
             }
-        }
+        }, token);
     }
 
     /// <inheritdoc />
     public override void Stop() {
-        base.Stop();
+        // base.Stop();
         _managementEventWatcher.Stop();
     }
 

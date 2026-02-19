@@ -1,4 +1,5 @@
 ﻿using System.IO.Ports;
+using System.Text;
 
 namespace Polimaster.Device.Transport.Win.Usb.Transport;
 
@@ -13,8 +14,8 @@ public class DevicePort : SerialPort, IDevicePort {
 
     /// <inheritdoc />
     public string ReadAll() {
-        var data = string.Empty;
-        while (BytesToRead > 0) data += ReadExisting();
-        return data;
+        var sb = new StringBuilder();
+        while (BytesToRead > 0) sb.Append(ReadExisting());
+        return sb.ToString();
     }
 }

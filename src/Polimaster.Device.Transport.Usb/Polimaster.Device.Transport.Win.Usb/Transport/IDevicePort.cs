@@ -1,4 +1,6 @@
-﻿using System.IO.Ports;
+﻿using System.IO;
+using System.IO.Ports;
+using System.Text;
 
 namespace Polimaster.Device.Transport.Win.Usb.Transport;
 
@@ -21,4 +23,19 @@ public interface IDevicePort {
     /// </summary>
     /// <returns></returns>
     string ReadAll();
+
+    /// <summary>
+    /// See <see cref="SerialPort.BaseStream"/>
+    /// </summary>
+    Stream BaseStream { get; }
+
+    /// <summary>
+    /// See <see cref="SerialPort.Encoding"/>
+    /// </summary>
+    Encoding Encoding { get; }
+
+    /// <summary>
+    /// See <see cref="SerialPort.NewLine"/>
+    /// </summary>
+    string NewLine { get; }
 }
