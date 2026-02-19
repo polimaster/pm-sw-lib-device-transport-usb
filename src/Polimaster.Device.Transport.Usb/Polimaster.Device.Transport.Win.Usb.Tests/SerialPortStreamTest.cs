@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using Moq;
 using Polimaster.Device.Transport.Win.Usb.Transport;
@@ -37,11 +39,15 @@ public class SerialPortStreamTest : Mocks {
     [Fact]
     public async Task ShouldWrite() {
         var port = new Mock<IDevicePort>();
+        var streamMock = new Mock<Stream>();
+        port.Setup(e => e.Encoding).Returns(Encoding.UTF8);
+        port.Setup(e => e.NewLine).Returns("\r\n");
+        port.Setup(e => e.BaseStream).Returns(streamMock.Object);
         var stream = new SerialPortStream(port.Object, LOGGER_FACTORY);
         
         var buff = Guid.NewGuid().ToString();
         await stream.Write(buff, Token);
         
-        port.Verify(e => e.WriteLine(buff));
+        streamMock.Verify(s => s.WriteAsync(It.IsAny<byte[]>(), It.IsAny<int>(), It.IsAny<int>(), Token));
     }
 }

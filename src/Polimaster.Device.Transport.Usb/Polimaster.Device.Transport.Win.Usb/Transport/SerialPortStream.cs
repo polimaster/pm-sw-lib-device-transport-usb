@@ -36,10 +36,10 @@ public class SerialPortStream : ALogged, ISerialPortStream {
     }
 
     /// <inheritdoc />
-    public virtual Task Write(string buffer, CancellationToken cancellationToken) {
+    public virtual async Task Write(string buffer, CancellationToken cancellationToken) {
         // LogDebug(nameof(Write));
-        _port.WriteLine(buffer);
-        return Task.CompletedTask;
+        var data = _port.Encoding.GetBytes(buffer + _port.NewLine);
+        await _port.BaseStream.WriteAsync(data, 0, data.Length, cancellationToken);
     }
 
 
@@ -50,14 +50,16 @@ public class SerialPortStream : ALogged, ISerialPortStream {
     /// <returns></returns>
     public virtual Task<string> Read(CancellationToken cancellationToken) {
         // LogDebug(nameof(Read));
-        var res = _port.ReadLine();
-        return Task.FromResult(res);
+        // SerialPort.ReadLine doesn't have an async version, 
+        // but we can wrap it in Task.Run if we want to avoid blocking the calling thread,
+        // though it still blocks a thread pool thread.
+        // For now, keeping it as is or using Task.Run for better "apparent" asynchrony.
+        return Task.Run(_port.ReadLine, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual Task<string> ReadAll(CancellationToken cancellationToken) {
         // LogDebug(nameof(ReadAll));
-        var res = _port.ReadAll();
-        return Task.FromResult(res);
+        return Task.Run(_port.ReadAll, cancellationToken);
     }
 }
