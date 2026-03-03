@@ -21,10 +21,10 @@
 
     <ItemGroup>
         <None Include="../../../README.md" Pack="true" PackagePath="/" />
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
-        <PackageReference Include="Polimaster.Device.Abstract" Version="4.1.8" />
-        <PackageReference Include="System.IO.Ports" Version="10.0.1" />
-        <PackageReference Include="System.Management" Version="10.0.1" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.103" PrivateAssets="All" />
+        <PackageReference Include="Polimaster.Device.Abstract" Version="4.1.9" />
+        <PackageReference Include="System.IO.Ports" Version="10.0.3" />
+        <PackageReference Include="System.Management" Version="10.0.3" />
     </ItemGroup>
 
 </Project>
